@@ -47,6 +47,19 @@ public class MainActivity extends AppCompatActivity {
         BA = BluetoothAdapter.getDefaultAdapter();
         lv = (ListView) findViewById(R.id.listView);
 
+        bluetoothLeScanner = BA.getBluetoothLeScanner();
+
+        // Device scan callback.
+        leScanCallback = new ScanCallback() {
+            @Override
+            public void onScanResult(int callbackType, ScanResult result) {
+                super.onScanResult(callbackType, result);
+
+                Log.e("TAG", "onScanResult:" + result.getDevice().getName());
+
+            }
+        };
+
     }
 
     public void on(View view) {
@@ -85,27 +98,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void scan(View view) {
 
-        // Device scan callback.
-        ScanCallback leScanCallback =
-                new ScanCallback() {
-                    @Override
-                    public void onScanResult(int callbackType, ScanResult result) {
-                        super.onScanResult(callbackType, result);
-
-                        Log.e("TAG", "onScanResult:" + result.getDevice().getName());
-
-                    }
-                };
-
-        BA.getBluetoothLeScanner().startScan(leScanCallback);
+        bluetoothLeScanner.startScan(leScanCallback);
 
     }
-//    public void Stopscan(View view) {
-//
-//        bluetoothLeScanner.stopScan(leScanCallback);
-//
-//
-//    }
+    public void Stopscan(View view)
+    {
+        bluetoothLeScanner.stopScan(leScanCallback);
+
+    }
 
 
 
